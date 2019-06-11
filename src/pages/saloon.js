@@ -51,7 +51,7 @@ class Saloon extends Component {
         order: order,
         waiter: this.state.name
       }
-      database.collection('Orders').add(object)
+      database.collection('orders').add(object)
       alert('Pedido enviado!')
       this.resetOrderList();
     }
