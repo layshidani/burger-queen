@@ -46,7 +46,7 @@ class Home extends React.Component {
   }
 
   signIn = () => {
-    const { email, password, displayName } = this.state;
+    const { email, password } = this.state;
     this.props.signInWithEmailAndPassword(email, password)
       .then((resp) => {
         if (resp) {
