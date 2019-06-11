@@ -26,9 +26,9 @@ class Saloon extends React.Component {
   handleClick = (order) => {
     const object = {
       clientName: this.state.clientName,
-      order: order
+      order
     }
-    database.collection('Orders').add(object)
+    database.collection('orders').add(object)
     this.setState({
       listItem: this.state.listItem.concat(object)
     })

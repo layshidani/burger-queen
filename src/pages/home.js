@@ -30,39 +30,39 @@ class Home extends React.Component {
 
     this.props.createUserWithEmailAndPassword(email, password)
       .then((data) => {
-        console.log(data)
         if (!data) return;
         const { user: { uid } } = data;
         addUser({
           email,
           displayName,
+          userType: this.refs.userType.value
         }, uid)
-      });
-    alert('Usuário cadastrado com sucesso! Faça o login.')
+      })
+      .then((resp) => {
+        if (resp) {
+          const userType = this.refs.userType.value; 
+          this.props.history.push(`/${userType}`)}
+        })
   }
 
   signIn = () => {
-    // como verificar se o usuário está logado?
-    // console.log(this.state);
-    // console.log('>>>>', this.props.user);
-
-    this.props.signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((info) => console.log('>>> user isAnonymous ???', info.user.isAnonymous))
-      .then(() => {
-        const userType = this.refs.userType.value;
-        if (userType === 'saloon') {
-          this.props.history.push(`/Saloon`);
-        } else {
-          this.props.history.push(`/Kitchen`);
+    const { email, password, displayName } = this.state;
+    this.props.signInWithEmailAndPassword(email, password)
+      .then((resp) => {
+        if (resp) {
+          const userType = this.refs.userType.value; this.props.history.push(`/${userType}`);
         }
       })
-      .catch(error => alert(error));
-      // .catch(error => alert(this.setState({ error })))
   }
 
   render() {
+    const errorMsg = this.props.error;
+
     return (
       <div>
+        <p>
+          {errorMsg}
+        </p>
         <select ref='userType'>
           <option value="saloon">Salão</option>
           <option value="kitchen">Cozinha</option>
