@@ -15,7 +15,8 @@ class Saloon extends Component {
     super(props);
     this.state = {
       order: [],
-      name: ""
+      name: '',
+      status: ''
     }
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
@@ -35,12 +36,6 @@ class Saloon extends Component {
     this.setState(newState);
   }
 
-  handleClick = (order) => {
-    const object = {
-      clientName: this.state.clientName,
-      order
-    }
-    database.collection('orders').add(object)
   resetOrderList = () => {
     this.setState({
       order: [],
@@ -50,14 +45,15 @@ class Saloon extends Component {
 
   sendOrder = (order) => {
     if (this.refs.clientName.value === '') {
-      alert('Insira o nome do Cliente')
+      alert('Insira o nome do Cliente');
     } else {
       const object = {
         clientName: this.state.clientName,
         order: order,
-        waiter: this.state.name
+        waiter: this.state.name,
+        status: 'kitchen'
       }
-      database.collection('Orders').add(object)
+      database.collection('orders').add(object)
       alert('Pedido enviado!')
       this.resetOrderList();
     }
