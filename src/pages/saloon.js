@@ -16,18 +16,27 @@ class Saloon extends Component {
     this.state = {
       order: [],
       name: '',
-      status: ''
+      status: '',
+      hour: ''
     }
+
+    
+
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
         database.collection("users").doc(user.uid).get()
-        .then(doc => {
-          const data = doc.data();
-          const name = data.displayName;
-          this.setState({name})
-        }); 
+          .then(doc => {
+            const data = doc.data();
+            const name = data.displayName;
+            this.setState({ name })
+          });
       }
     });
+  }
+
+  hourNow = () => {
+    const time = Date().split(' ')[4];
+    return time
   }
 
   handleChange = (event, element) => {
@@ -51,7 +60,8 @@ class Saloon extends Component {
         clientName: this.state.clientName,
         order: order,
         waiter: this.state.name,
-        status: 'kitchen'
+        status: 'kitchen',
+        hour: this.hourNow()
       }
       database.collection('orders').add(object)
       alert('Pedido enviado!')
@@ -109,7 +119,7 @@ class Saloon extends Component {
     const total = this.state.order.reduce((acc, cur) => {
       return acc + (cur.quantity * cur.price)
     }, 0);
-    
+
     return (
       <section className='order'>
         <h1>Olá {this.state.name}, você está no Salão</h1>
