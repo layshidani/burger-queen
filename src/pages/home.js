@@ -8,6 +8,7 @@ import addUser from '../firebase/firestore';
 import { faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 const firebaseAppAuth = firebase.auth();
+const database = firebase.firestore();
 
 class Home extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class Home extends React.Component {
     this.state = {
       email: '',
       password: '',
-      displayName: ''
+      displayName: '',
+      userType: 'saloon'
     };
   }
 
@@ -26,7 +28,7 @@ class Home extends React.Component {
   }
 
   createUser = () => {
-    const { email, password, displayName } = this.state;
+    const { email, password, displayName, userType } = this.state;
 
     this.props.createUserWithEmailAndPassword(email, password)
       .then((data) => {
@@ -40,34 +42,40 @@ class Home extends React.Component {
       })
       .then((resp) => {
         if (resp) {
-          const userType = this.refs.userType.value; 
-          this.props.history.push(`/${userType}`)}
-        })
+          this.props.history.push(`/${userType}`)
+        }
+      })
   }
 
   signIn = () => {
-    const { email, password } = this.state;
+    const { email, password, userType } = this.state;
     this.props.signInWithEmailAndPassword(email, password)
       .then((resp) => {
-        if (resp) {
-          const userType = this.refs.userType.value; this.props.history.push(`/${userType}`);
-        }
+        const id = resp.user.uid;
+        database.collection('users').doc(id).get()
+          .then((resp) => {
+            this.props.history.push(`/${resp.data().userType}`)
+          })
+          .catch((error) => {
+            alert(error)
+          })
       })
   }
 
   render() {
     const errorMsg = this.props.error;
+    console.log(this.state);
 
     return (
       <div>
         <p>
           {errorMsg}
         </p>
-        <select ref='userType'>
-          <option value="saloon">Salão</option>
-          <option value="kitchen">Cozinha</option>
+        <select ref='userType' onChange={(e) => this.handleChange(e, 'userType')}>
+          <option value='saloon'>Salão</option>
+          <option value='kitchen'>Cozinha</option>
         </select>
-        
+
         <input value={this.state.displayName}
           placeholder='Nome de usuário'
           onChange={(e) => this.handleChange(e, 'displayName')} />
@@ -78,8 +86,8 @@ class Home extends React.Component {
         <input value={this.state.password} type='password'
           placeholder='Senha'
           onChange={(e) => this.handleChange(e, 'password')} />
-        <Button text='Entrar' className="btn" iconName={faSignInAlt} onClick={this.signIn} />
-        <Button text='Cadastrar' className="btn" iconName={faUserPlus} onClick={this.createUser} />
+        <Button text='Entrar' className='btn' iconName={faSignInAlt} onClick={this.signIn} />
+        <Button text='Cadastrar' className='btn' iconName={faUserPlus} onClick={this.createUser} />
       </div>
     )
   }

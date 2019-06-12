@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Button(props) {
   return (
-    <button className={props.className} onClick={props.onClick}>
+    <button className={props.className} onClick={props.onClick} id={props.id}>
       <FontAwesomeIcon icon={props.iconName} /> {props.text} {props.price}
     </button>
   );
