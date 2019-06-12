@@ -2,7 +2,7 @@
   width: 70vw;
 }
 
-.order-kitchen {
+.order-kitchen, .order-ready {
   color: #282C34;
   background-color: #faf6f6;
   padding: 10px;

@@ -19,8 +19,6 @@ class Saloon extends Component {
       hour: ''
     }
 
-    
-
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
         database.collection("users").doc(user.uid).get()
@@ -60,7 +58,8 @@ class Saloon extends Component {
         order: order,
         waiter: this.state.name,
         status: 'kitchen',
-        hour: this.hourNow()
+        hour: this.hourNow(),
+        hourReady: ''
       }
       database.collection('orders').add(object)
       alert('Pedido enviado!')
