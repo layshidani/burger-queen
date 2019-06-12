@@ -17,7 +17,6 @@ class Home extends Component {
       email: '',
       password: '',
       displayName: '',
-      userType: 'saloon'
     };
   }
 
@@ -48,7 +47,7 @@ class Home extends Component {
   }
 
   signIn = () => {
-    const { email, password, userType } = this.state;
+    const { email, password } = this.state;
     this.props.signInWithEmailAndPassword(email, password)
       .then((resp) => {
         const id = resp.user.uid;
