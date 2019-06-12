@@ -15,7 +15,8 @@ class Saloon extends Component {
     super(props);
     this.state = {
       order: [],
-      name: ""
+      name: '',
+      status: ''
     }
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
@@ -49,7 +50,8 @@ class Saloon extends Component {
       const object = {
         clientName: this.state.clientName,
         order: order,
-        waiter: this.state.name
+        waiter: this.state.name,
+        status: 'kitchen'
       }
       database.collection('orders').add(object)
       alert('Pedido enviado!')
