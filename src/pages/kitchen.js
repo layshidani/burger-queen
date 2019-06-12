@@ -19,15 +19,20 @@ class Kitchen extends React.Component {
   componentDidMount() {
     database.collection('orders').get()
       .then((querySnapshot) => {
-        const data = querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}));
+        const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
         this.setState({ listItem: data });
       });
   }
 
   orderReady = (id) => {
-    database.collection('orders').doc(id).update({
-      status: 'ready'
-    })
+    // database.collection('orders').doc(id).update({
+    //   status: 'ready'
+    // })
+    console.log('this.refs: ',id, this.refs);
+      // this.refs.parentNode.removeChild(this.refs);
+      this.refs.parentNode.removeChild(this.refs)
+    // const element = document.getElementById('orders-kitchen');
+    // element.parentNode.removeChild(element);
   };
 
   render() {
@@ -38,24 +43,24 @@ class Kitchen extends React.Component {
         <p>Vc está na Cozinha</p>
         <h1>Seus Pedidos que já estão na cozinha:</h1>
         {
-          orders.map((client, index) => {
-            if (client.status === 'kitchen') {
+          orders.map((orders, index) => {
+            if (orders.status === 'kitchen') {
               return (
-                <div className='order-kitchen'>
+                <div id='orders-kitchen' className='order-kitchen' key={index} ref={orders.id}>
                   <h2>Pedido {index + 1}</h2>
-                  <p>Hora do pedido: {client.hour}</p>
-                  <p>Cliente: {client.clientName}</p>
-                  <p>Atendente: {client.waiter}</p>
+                  <p>Hora do pedido: {orders.hour}</p>
+                  <p>Cliente: {orders.clientName}</p>
+                  <p>Atendente: {orders.waiter}</p>
                   {
-                    client.order.map((pedido) => {
-                      return <p>Qtd: {pedido.quantity} - {pedido.title}</p>
+                    orders.order.map((order, index) => {
+                      return <p key={index}>Qtd: {order.quantity} - {order.title}</p>
                     })
                   }
-                  <Button className='order-ready' iconName={faCheckCircle} text='Pedido Pronto!' onClick={() => this.orderReady(client.id)}></Button>
+                  <Button key={index} className='order-ready' iconName={faCheckCircle} text='Pedido Pronto!' onClick={() => this.orderReady(orders.id)}></Button>
                 </div>
               )
             }
-            
+
           })
         }
       </section>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../firebase/firebase-config';
-import withFirebaseAuth from 'react-with-firebase-auth';
 import Data from '../data.json';
 import './saloon.css';
 import '../components/Button.css';
