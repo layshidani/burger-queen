@@ -122,6 +122,7 @@ class Saloon extends Component {
     return (
       <section className='order'>
         <h1>Olá {this.state.name}, você está no Salão</h1>
+        <p>Clique nos itens para adicioná-los ao pedido.</p>
         <h2>Café da manhã: </h2>
         <div className='items'>
           {
@@ -149,7 +150,7 @@ class Saloon extends Component {
           }
         </div>
         <div className='order-list'>
-          <h1>Pedido</h1>
+          <h1>Resumo do Pedido</h1>
           <div ref='orderList'>
             {
               this.state.order.map((item, i) => {
@@ -158,8 +159,8 @@ class Saloon extends Component {
                     <p>
                       Produto: {item.title} - Qtd: {item.quantity} - Subtotal: R$ {item.price * item.quantity}
                     </p>
-                    <Button className='plus-minus-btn' iconName={faPlusCircle} onClick={() => this.handleAdd(item)}></Button>
                     <Button className='plus-minus-btn' iconName={faMinusCircle} onClick={() => this.handleDelete(item)}></Button>
+                    <Button className='plus-minus-btn' iconName={faPlusCircle} onClick={() => this.handleAdd(item)}></Button>
                   </div>
                 )
               })
