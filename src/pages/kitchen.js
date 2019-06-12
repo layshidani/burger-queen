@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from '../firebase/firebase-config';
 import Button from '../components/Button';
 import './kitchen.css';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const database = firebase.firestore();
 
@@ -20,6 +20,21 @@ class Kitchen extends React.Component {
     database.collection('orders').get()
       .then((querySnapshot) => {
         const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+        const compare = (a, b) => {
+          let firstOrder = parseFloat((a.hour).replace(':').replace(/[^\d.-]/g, ''));
+          let secondOrder = parseFloat((b.hour).replace(':').replace(/[^\d.-]/g, ''));
+
+          if (firstOrder < secondOrder) {
+            return -1;
+          } else if (firstOrder > secondOrder) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+
+        data.sort(compare);
         this.setState({ listItem: data });
       });
   }
@@ -28,9 +43,9 @@ class Kitchen extends React.Component {
     // database.collection('orders').doc(id).update({
     //   status: 'ready'
     // })
-    console.log('this.refs: ',id, this.refs);
-      // this.refs.parentNode.removeChild(this.refs);
-      this.refs.parentNode.removeChild(this.refs)
+    console.log('this.refs: ', id, this.refs);
+    // this.refs.parentNode.removeChild(this.refs);
+    this.refs.parentNode.removeChild(this.refs)
     // const element = document.getElementById('orders-kitchen');
     // element.parentNode.removeChild(element);
   };
@@ -40,23 +55,38 @@ class Kitchen extends React.Component {
 
     return (
       <section className='order-list'>
-        <p>Vc está na Cozinha</p>
-        <h1>Seus Pedidos que já estão na cozinha:</h1>
+        <p>#Cozinha</p>
+        <h1>Pedidos em preparo:</h1>
         {
           orders.map((orders, index) => {
             if (orders.status === 'kitchen') {
               return (
                 <div id='orders-kitchen' className='order-kitchen' key={index} ref={orders.id}>
                   <h2>Pedido {index + 1}</h2>
-                  <p>Hora do pedido: {orders.hour}</p>
+                  <p className='time'>Hora do pedido: {orders.hour}</p>
                   <p>Cliente: {orders.clientName}</p>
                   <p>Atendente: {orders.waiter}</p>
-                  {
-                    orders.order.map((order, index) => {
-                      return <p key={index}>Qtd: {order.quantity} - {order.title}</p>
-                    })
-                  }
-                  <Button key={index} className='order-ready' iconName={faCheckCircle} text='Pedido Pronto!' onClick={() => this.orderReady(orders.id)}></Button>
+                  <table className='order-resume'>
+                    <tr>
+                      <tr>Resumo do pedido</tr>
+                    </tr>
+                    <tr>
+                      <th>Qtd</th>
+                      <th>Item</th>
+                    </tr>
+
+                    {
+                      orders.order.map((order, index) => {
+                        return (
+                          <tr>
+                            <td key={index}>{order.quantity}</td>
+                            <td key={index}> {order.title}</td>
+                          </tr>
+                        )
+                      })
+                    }
+                  </table>
+                  <Button key={index} className='order-ready' iconName={faCheckCircle} text='Pronto para servir!' onClick={() => this.orderReady(orders.id)}></Button>
                 </div>
               )
             }

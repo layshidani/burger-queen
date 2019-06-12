@@ -1,3 +1,7 @@
+.order-list {
+  width: 70vw;
+}
+
 .order-kitchen {
   color: #282C34;
   background-color: #faf6f6;
@@ -5,6 +9,39 @@
   margin: 10px;
 }
 
+.time {
+  font-size: 12px;
+  font-style: italic;
+}
+
 .order-ready {
   padding: 10px;
+  margin: 10px;
+}
+
+.order-resume {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 16px;
+}
+
+.order-resume td, .order-resume th {
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+
+.order-resume tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+.order-resume tr:hover {
+  background-color: #ddd;
+}
+
+.order-resume th {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  background-color: #151518;
+  color: rgb(245, 247, 250);
 }
