@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './home.css'
 import Button from '../components/Button'
 import '../components/Form.css'
@@ -10,7 +10,7 @@ import { faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 const firebaseAppAuth = firebase.auth();
 const database = firebase.firestore();
 
-class Home extends React.Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,8 +64,6 @@ class Home extends React.Component {
 
   render() {
     const errorMsg = this.props.error;
-    console.log(this.state);
-
     return (
       <div>
         <p>
