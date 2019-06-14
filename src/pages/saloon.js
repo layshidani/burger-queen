@@ -165,7 +165,6 @@ class Saloon extends Component {
               })
             }
           </div>
-
           <h3>Valor Total do Pedido</h3>
           <p ref='totalPrice'>R$ {total}</p>
           <input value={this.state.clientName}

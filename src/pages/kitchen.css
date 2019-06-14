@@ -45,3 +45,13 @@
   background-color: #151518;
   color: rgb(245, 247, 250);
 }
+
+.orders-in-prepare {
+  background-color: #32353b;
+  padding: 20px;
+}
+
+.orders-ready {
+  background-color: #10680d;
+  padding: 20px;
+}

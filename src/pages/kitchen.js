@@ -61,82 +61,68 @@ class Kitchen extends React.Component {
     return (
       <section className='order-list'>
         <p>#Cozinha</p>
-        <h1>Pedidos em preparo:</h1>
-        {
-          orders.map((orders, index) => {
-            if (orders.status === 'kitchen') {
-              return (
-                <div id={'orders' + index} className='order-kitchen' key={index}>
-                  <h2>Pedido {index + 1}</h2>
-                  <p className='time'>Hora do pedido: {orders.hour}</p>
-                  <p>Cliente: {orders.clientName}</p>
-                  <p>Atendente: {orders.waiter}</p>
-                  <table className='order-resume'>
-                    <tr>
-                      <tr>Resumo do pedido</tr>
-                    </tr>
-                    <tr>
-                      <th>Qtd</th>
-                      <th>Item</th>
-                    </tr>
-
-                    {
-                      orders.order.map((order, index) => {
-                        return (
-                          <tr>
-                            <td key={index}>{order.quantity}</td>
-                            <td key={index}> {order.title}</td>
-                          </tr>
-                        )
-                      })
-                    }
-                  </table>
-                  <Button key={index} className='order-ready' iconName={faCheckCircle} text='Pronto para servir!' onClick={() => this.orderReady(orders.id, 'orders' + index)}></Button>
-                </div>
-              )
-            }            
-          })
-        }
-        <h1>Pedidos Prontos para servir:</h1>
-        {
-
-          orders.map((orders, index) => {
-            if (orders.status === 'ready') {
-              return (
-                <div id='orders-ready' className='order-ready' key={index} ref={orders.id}>
-                  <h2>Pedido {index + 1}</h2>
-                  <p className='time'>Hora do pedido: {orders.hour} - Pronto: {orders.hourReady}</p>
-                  <p className='time'>Tempo de preparo: {new Date(
-                  ((+orders.hourReady.split(':')[0]) * 60 * 60 + (+orders.hourReady.split(':')[1]) * 60 + (+orders.hourReady.split(':')[2]) - (+orders.hour.split(':')[0]) * 60 * 60 + (+orders.hour.split(':')[1]) * 60 + (+orders.hour.split(':')[2])) * 1000).toISOString().substr(11, 8)}
-                  </p>
-                  <p>Cliente: {orders.clientName}</p>
-                  <p>Atendente: {orders.waiter}</p>
-                  <table className='order-resume'>
-                    <tr>
-                      <tr>Resumo do pedido</tr>
-                    </tr>
-                    <tr>
-                      <th>Qtd</th>
-                      <th>Item</th>
-                    </tr>
-
-                    {
-                      orders.order.map((order, index) => {
-                        return (
-                          <tr>
-                            <td key={index}>{order.quantity}</td>
-                            <td key={index}> {order.title}</td>
-                          </tr>
-                        )
-                      })
-                    }
-                  </table>
-                </div>
-              )
-            }
-
-          })
-        }
+        <div className='orders-in-prepare'>
+          <h1>Pedidos em preparo:</h1>
+          {
+            orders.map((orders, index) => {
+              if (orders.status === 'kitchen') {
+                return (
+                  <div id={'orders' + index} className='order-kitchen' key={'order' + index}>
+                    <h2>Pedido {index + 1}</h2>
+                    <p className='time'>Hora do pedido: {orders.hour}</p>
+                    <p>Cliente: {orders.clientName}</p>
+                    <p>Atendente: {orders.waiter}</p>
+                    <table className='order-resume'>
+                      <thead>
+                        <tr>
+                          <td>Resumo do pedido</td>
+                          <td></td>
+                        </tr>
+                      <tr>
+                        <th>Qtd</th>
+                        <th>Item</th>
+                      </tr>
+                      </thead>
+                      {
+                        orders.order.map((order, index) => {
+                          return (
+                            <tbody key={'tr' + index}>
+                              <tr>
+                                <td>{order.quantity}</td>
+                                <td> {order.title}</td>
+                              </tr>
+                            </tbody>
+                          )
+                        })
+                      }
+                    </table>
+                    <Button key={index} className='order-ready' iconName={faCheckCircle} text='Pronto para servir!' onClick={() => this.orderReady(orders.id, 'orders' + index)}></Button>
+                  </div>
+                )
+              }
+            })
+          }
+        </div>
+        <div className='orders-ready'>
+          <h1>Pedidos Prontos para servir:</h1>
+          {
+            orders.map((orders, index) => {
+              if (orders.status === 'ready') {
+                return (
+                  <div id='orders-ready' className='order-ready' key={'ready' + index} ref={orders.id}>
+                    <h2>Pedido {'ready' + index + 1}</h2>
+                    <p className='time'>Hora do pedido: {orders.hour} - Pronto: {orders.hourReady}</p>
+                    <p className='time'>Tempo de preparo: {new Date(
+                      ((+orders.hourReady.split(':')[0]) * 60 * 60 + (+orders.hourReady.split(':')[1]) * 60 + (+orders.hourReady.split(':')[2]) - (+orders.hour.split(':')[0]) * 60 * 60 + (+orders.hour.split(':')[1]) * 60 + (+orders.hour.split(':')[2])) * 1000).toISOString().substr(11, 8)}
+                    </p>
+                    <p>Cliente: {orders.clientName}</p>
+                    <p>Atendente: {orders.waiter}</p>
+                  </div>
+                )
+              }
+            })
+          }
+        </div>
       </section>
     )
   }
