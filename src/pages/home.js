@@ -64,19 +64,11 @@ class Home extends Component {
   render() {
     const errorMsg = this.props.error;
     return (
-      <div>
+      <div className='home'>
         <p>
           {errorMsg}
         </p>
-        <select ref='userType' onChange={(e) => this.handleChange(e, 'userType')}>
-          <option value='saloon'>Salão</option>
-          <option value='kitchen'>Cozinha</option>
-        </select>
-
-        <input value={this.state.displayName}
-          placeholder='Nome de usuário'
-          onChange={(e) => this.handleChange(e, 'displayName')} />
-
+        <h1>Entrar</h1>
         <input value={this.state.email} type='email'
           placeholder='Email'
           onChange={(e) => this.handleChange(e, 'email')} />
@@ -84,6 +76,21 @@ class Home extends Component {
           placeholder='Senha'
           onChange={(e) => this.handleChange(e, 'password')} />
         <Button text='Entrar' className='btn' iconName={faSignInAlt} onClick={this.signIn} />
+        <hr/>
+        <h1>Criar usuário</h1>
+        <input value={this.state.displayName}
+          placeholder='Nome de usuário'
+          onChange={(e) => this.handleChange(e, 'displayName')} />
+        <input value={this.state.email} type='email'
+          placeholder='Email'
+          onChange={(e) => this.handleChange(e, 'email')} />
+        <input value={this.state.password} type='password'
+          placeholder='Senha'
+          onChange={(e) => this.handleChange(e, 'password')} />
+        <select ref='userType' onChange={(e) => this.handleChange(e, 'userType')}>
+          <option value='saloon'>Salão</option>
+          <option value='kitchen'>Cozinha</option>
+        </select>
         <Button text='Cadastrar' className='btn' iconName={faUserPlus} onClick={this.createUser} />
       </div>
     )

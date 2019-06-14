@@ -19,8 +19,6 @@ class Saloon extends Component {
       hour: ''
     }
 
-    
-
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
         database.collection("users").doc(user.uid).get()
@@ -60,7 +58,8 @@ class Saloon extends Component {
         order: order,
         waiter: this.state.name,
         status: 'kitchen',
-        hour: this.hourNow()
+        hour: this.hourNow(),
+        hourReady: ''
       }
       database.collection('orders').add(object)
       alert('Pedido enviado!')
@@ -166,7 +165,6 @@ class Saloon extends Component {
               })
             }
           </div>
-
           <h3>Valor Total do Pedido</h3>
           <p ref='totalPrice'>R$ {total}</p>
           <input value={this.state.clientName}
