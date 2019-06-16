@@ -3,6 +3,7 @@ import './App.css';
 import home from './pages/home'
 import saloon from './pages/saloon'
 import kitchen from './pages/kitchen'
+import ready from './pages/ready-orders'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
           <Route exact path="/" component={home}/>
           <Route exact path="/saloon" component={saloon}/>
           <Route exact path="/kitchen" component={kitchen}/>
+          <Route exact path="/ready" component={ready}/>
         </header>
       </div>
     </Router>

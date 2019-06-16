@@ -4,7 +4,7 @@ import Data from '../data.json';
 import './saloon.css';
 import '../components/Button.css';
 import Button from '../components/Button';
-import { faCoffee, faGlassWhiskey, faHamburger, faCertificate, faPlusCircle, faMinusCircle, faShareSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faGlassWhiskey, faHamburger, faCertificate, faPlusCircle, faMinusCircle, faShareSquare, faSignOutAlt, faHourglassHalf } from '@fortawesome/free-solid-svg-icons';
 
 const database = firebase.firestore();
 const firebaseAppAuth = firebase.auth();
@@ -113,6 +113,11 @@ class Saloon extends Component {
     }
   };
 
+  signOut = () => {
+    firebaseAppAuth.signOut()
+    this.props.history.push(`/`)
+  }
+
   render() {
     const total = this.state.order.reduce((acc, cur) => {
       return acc + (cur.quantity * cur.price)
@@ -120,9 +125,16 @@ class Saloon extends Component {
 
     return (
       <section className='order'>
-        <h1>Olá {this.state.name}, você está no Salão</h1>
+        <div className='menu'>
+          <p>Olá, {this.state.name}!</p>
+          <div>
+            <Button text='Pedidos prontos para servir' iconName={faHourglassHalf} className='navigation' onClick={() => this.props.history.push(`/ready`)}></Button>
+            <Button text='Sair' iconName={faSignOutAlt} className='navigation' onClick={this.signOut}></Button>
+          </div>
+        </div>
+        <h1>#Salão</h1>
         <p>Clique nos itens para adicioná-los ao pedido.</p>
-        <h2>Café da manhã: </h2>
+        <h3>Café da manhã: </h3>
         <div className='items'>
           {
             Data.menu.breakfast.map(item => {
@@ -130,7 +142,7 @@ class Saloon extends Component {
             })
           }
         </div>
-        <h2>Outros: </h2>
+        <h3>Outros: </h3>
         <div className='items'>
           {
             Data.menu.hamburgueres.map(item => {

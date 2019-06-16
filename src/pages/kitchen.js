@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import firebase from '../firebase/firebase-config';
 import Button from '../components/Button';
 import './kitchen.css';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faHourglassHalf, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
+const firebaseAppAuth = firebase.auth();
 const database = firebase.firestore();
 
-class Kitchen extends React.Component {
+class Kitchen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       listItem: [],
       order: []
     }
+
+    firebaseAppAuth.onAuthStateChanged(user => {
+      if (user) {
+        database.collection("users").doc(user.uid).get()
+          .then(doc => {
+            const data = doc.data();
+            const name = data.displayName;
+            this.setState({ name })
+          });
+      }
+    });
   }
 
   componentDidMount() {
@@ -51,17 +63,27 @@ class Kitchen extends React.Component {
 
     const element = document.getElementById(index);
     element.parentNode.removeChild(element);
-
   }
 
+  signOut = () => {
+    firebaseAppAuth.signOut()
+    this.props.history.push(`/`)
+  }
 
   render() {
     const orders = this.state.listItem;
 
     return (
       <section className='order-list'>
-        <p>#Cozinha</p>
-        <div className='orders-in-prepare'>
+        <div className='menu'>
+          <p>Olá, {this.state.name}!</p>
+          <div>
+            <Button text='Ver Tempo de preparo e pedidos prontos para servir' iconName={faHourglassHalf} className='navigation' onClick={() => this.props.history.push(`/ready`)}></Button>
+            <Button text='Sair' iconName={faSignOutAlt} className='navigation' onClick={this.signOut}></Button>
+          </div>
+        </div>
+        <h1>#Cozinha</h1>
+        <div>
           <h1>Pedidos em preparo:</h1>
           {
             orders.map((orders, index) => {
@@ -78,10 +100,10 @@ class Kitchen extends React.Component {
                           <td>Resumo do pedido</td>
                           <td></td>
                         </tr>
-                      <tr>
-                        <th>Qtd</th>
-                        <th>Item</th>
-                      </tr>
+                        <tr>
+                          <th>Qtd</th>
+                          <th>Item</th>
+                        </tr>
                       </thead>
                       {
                         orders.order.map((order, index) => {
@@ -96,27 +118,7 @@ class Kitchen extends React.Component {
                         })
                       }
                     </table>
-                    <Button key={index} className='order-ready' iconName={faCheckCircle} text='Pronto para servir!' onClick={() => this.orderReady(orders.id, 'orders' + index)}></Button>
-                  </div>
-                )
-              }
-            })
-          }
-        </div>
-        <div className='orders-ready'>
-          <h1>Pedidos Prontos para servir:</h1>
-          {
-            orders.map((orders, index) => {
-              if (orders.status === 'ready') {
-                return (
-                  <div id='orders-ready' className='order-ready' key={'ready' + index} ref={orders.id}>
-                    <h2>Pedido {'ready' + index + 1}</h2>
-                    <p className='time'>Hora do pedido: {orders.hour} - Pronto: {orders.hourReady}</p>
-                    <p className='time'>Tempo de preparo: {new Date(
-                      ((+orders.hourReady.split(':')[0]) * 60 * 60 + (+orders.hourReady.split(':')[1]) * 60 + (+orders.hourReady.split(':')[2]) - (+orders.hour.split(':')[0]) * 60 * 60 + (+orders.hour.split(':')[1]) * 60 + (+orders.hour.split(':')[2])) * 1000).toISOString().substr(11, 8)}
-                    </p>
-                    <p>Cliente: {orders.clientName}</p>
-                    <p>Atendente: {orders.waiter}</p>
+                    <Button key={index} className='order-ready' iconName={faCheck} text='Pronto para servir!' onClick={() => this.orderReady(orders.id, 'orders' + index)}></Button>
                   </div>
                 )
               }
