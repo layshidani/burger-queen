@@ -6,17 +6,12 @@
   color: #282C34;
   background-color: #faf6f6;
   padding: 10px;
-  margin: 10px;
+  margin-top: 10px;
 }
 
 .time {
   font-size: 12px;
   font-style: italic;
-}
-
-.order-ready {
-  padding: 10px;
-  margin: 10px;
 }
 
 .order-resume {
@@ -46,12 +41,3 @@
   color: rgb(245, 247, 250);
 }
 
-.orders-in-prepare {
-  background-color: #32353b;
-  padding: 20px;
-}
-
-.orders-ready {
-  background-color: #10680d;
-  padding: 20px;
-}
