@@ -63,7 +63,11 @@ class Kitchen extends Component {
 
     const element = document.getElementById(index);
     element.parentNode.removeChild(element);
+  }
 
+  signOut = () => {
+    firebaseAppAuth.signOut()
+    this.props.history.push(`/`)
   }
 
   render() {
@@ -75,7 +79,7 @@ class Kitchen extends Component {
           <p>Olá, {this.state.name}!</p>
           <div>
             <Button text='Ver Tempo de preparo e pedidos prontos para servir' iconName={faHourglassHalf} className='navigation' onClick={() => this.props.history.push(`/ready`)}></Button>
-            <Button text='Sair' iconName={faSignOutAlt} className='navigation'></Button>
+            <Button text='Sair' iconName={faSignOutAlt} className='navigation' onClick={this.signOut}></Button>
           </div>
         </div>
         <h1>#Cozinha</h1>

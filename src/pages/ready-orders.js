@@ -12,6 +12,7 @@ class Ready extends Component {
     super(props);
     this.state = {
       listItem: [],
+      type: '',
       order: []
     }
 
@@ -21,7 +22,8 @@ class Ready extends Component {
           .then(doc => {
             const data = doc.data();
             const name = data.displayName;
-            this.setState({ name })
+            const type = data.userType;
+            this.setState({ name, type })
           });
       }
     });
@@ -55,13 +57,19 @@ class Ready extends Component {
       status: 'ok',
     })
 
-    console.log(':::', id, index);
-
     const element = document.getElementById(index);
     element.parentNode.removeChild(element);
 
   }
 
+  signOut = () => {
+    firebaseAppAuth.signOut()
+    this.props.history.push(`/`)
+  }
+
+  returnPage = () => {
+    this.props.history.push(`/${this.state.type}`)
+  }
 
   render() {
     const orders = this.state.listItem;
@@ -72,7 +80,7 @@ class Ready extends Component {
           <p>Olá, {this.state.name}!</p>
           <div>
             <Button text='Voltar' iconName={faAngleLeft} className='navigation' onClick={() => this.returnPage(orders)}></Button>
-            <Button text='Sair' iconName={faSignOutAlt} className='navigation'></Button>
+            <Button text='Sair' iconName={faSignOutAlt} className='navigation' onClick={this.signOut}></Button>
           </div>
         </div>
         <h1># Prontos para Servir</h1>
@@ -113,8 +121,6 @@ class Ready extends Component {
                     }
                   </table>
                   <Button key={index} className='order-delivered' iconName={faCheckDouble} text='Servido!' onClick={() => this.orderDelivered(orders.id, 'orders' + index)}></Button>
-
-                  {console.log('>>>', orders.id, index)}
                 </div>
               )
             }
