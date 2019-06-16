@@ -74,6 +74,7 @@ class Ready extends Component {
   render() {
     const orders = this.state.listItem;
 
+
     return (
       <section className='order-list'>
         <div className='menu'>
@@ -87,15 +88,19 @@ class Ready extends Component {
         {
           orders.map((orders, index) => {
             if (orders.status === 'ready') {
+              const hourReady = (orders.hourReady).split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+              const hourOrder = (orders.hour).split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+              const date = new Date(null);
+              date.setSeconds(hourReady - hourOrder);
+              const preparingTime = date.toISOString().substr(11, 8);
+
               return (
                 <div id={'orders' + index} className='order-ready' key={'ready' + index} ref={orders.id}>
                   <h2>Pedido {index + 1}</h2>
                   <p className='time'>Hora do pedido: {orders.hour} - Pronto: {orders.hourReady}</p>
-                  <p className='time'>Tempo de preparo: {new Date(
-                    ((+orders.hourReady.split(':')[0]) * 60 * 60 + (+orders.hourReady.split(':')[1]) * 60 + (+orders.hourReady.split(':')[2]) - (+orders.hour.split(':')[0]) * 60 * 60 + (+orders.hour.split(':')[1]) * 60 + (+orders.hour.split(':')[2])) * 1000).toISOString().substr(11, 8)}
+                  <p className='time'>Tempo de preparo: {preparingTime}
                   </p>
-                  <p>Cliente: {orders.clientName}</p>
-                  <p>Atendente: {orders.waiter}</p>
+                  <p>Cliente: {orders.clientName} (Atendente: {orders.waiter})</p>
                   <table className='order-resume'>
                     <thead>
                       <tr>
