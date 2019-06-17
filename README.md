@@ -361,11 +361,11 @@ cd burger-queen
 
 ### Geral
 
-* [ ] O produto final segue as diretrizes.
+* [x] O produto final segue as diretrizes.
 
 ### `README.md`
 
-* [ ] Processo de design de documentos.
+* [x] Processo de design de documentos.
 * [ ] Inclui informações para desenvolvedores (deps, instalação, uso, implantação, teste,
    ...)
 
@@ -373,37 +373,37 @@ cd burger-queen
 
 #### HU 1: Perfil de usuário
 
-* [ ] Criar login e senha.
-* [ ] Criar tipo de usuário (cozinha / salão).
-* [ ] Entrar na tela correta para cada usuário.
+* [x] Criar login e senha.
+* [x] Criar tipo de usuário (cozinha / salão).
+* [x] Entrar na tela correta para cada usuário.
 
 #### HU 2: Anotar pedidos
 
-* [ ] Digite o nome do cliente.
-* [ ] Filtre _menu_ para _café da manhã_ e _almoço/jantar_.
-* [ ] Adicionar item ao pedido.
-* [ ] Excluir item do pedido.
-* [ ] Mostra _resumo_ do pedido com todos os itens e o total.
-* [ ] Enviar para a cozinha (isso deve salvar o pedido).
+* [x] Digite o nome do cliente.
+* [x] Filtre _menu_ para _café da manhã_ e _almoço/jantar_.
+* [x] Adicionar item ao pedido.
+* [x] Excluir item do pedido.
+* [x] Mostra _resumo_ do pedido com todos os itens e o total.
+* [x] Enviar para a cozinha (isso deve salvar o pedido).
 
 #### HU 3: Ver pedidos na cozinha
 
-* [ ] Visualização de pedidos pendentes para produção.
-* [ ] Marcar pedido como como pronto para entrega.
-* [ ] Ver histórico dos pedidos.
+* [x] Visualização de pedidos pendentes para produção.
+* [x] Marcar pedido como como pronto para entrega.
+* [x] Ver histórico dos pedidos.
 
 #### HU 4: Entrega de pedidos
 
-* [ ] Visualização de pedidos pendentes para entrega.
-* [ ] Marcar pedido como entregue ao cliente.
+* [x] Visualização de pedidos pendentes para entrega.
+* [x] Marcar pedido como entregue ao cliente.
 
 ### UX
 
-* [ ] É bem e funciona bem em tablets.
-* [ ] Você pode _adicionar a tela inicial_ como um aplicativo da web (ele tem um manifesto,
+* [x] É bem e funciona bem em tablets.
+* [x] Você pode _adicionar a tela inicial_ como um aplicativo da web (ele tem um manifesto,
   ícones, ...) em iOS e Android.
-* [ ] Fácil utilização em telas sensíveis ao toque (telas sensíveis ao toque).
-* [ ] Status atual do pedido sempre visível enquanto fazemos um pedido.
+* [x] Fácil utilização em telas sensíveis ao toque (telas sensíveis ao toque).
+* [x] Status atual do pedido sempre visível enquanto fazemos um pedido.
 
 ### Testes (Se quiserem fazer)
 
