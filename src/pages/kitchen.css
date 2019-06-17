@@ -1,3 +1,10 @@
+.order-list-kitchen {
+  width: 70vw;
+  background-color: #151518;
+  margin: 20px;
+  padding: 20px;
+}
+
 .order-kitchen, .order-ready {
   color: #282C34;
   background-color: #faf6f6;

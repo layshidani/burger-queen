@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebase/firebase-config';
 import Button from '../components/Button';
-import './kitchen.css';
+import './ready-orders.css';
 import { faAngleLeft, faCheckDouble, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const firebaseAppAuth = firebase.auth();
@@ -62,7 +62,6 @@ class Ready extends Component {
 
     const element = document.getElementById(index);
     element.parentNode.removeChild(element);
-
   }
 
   signOut = () => {
@@ -77,9 +76,8 @@ class Ready extends Component {
   render() {
     const orders = this.state.listItem;
 
-
     return (
-      <section className='order-list'>
+      <section className='order-list-kitchen'>
         <div className='menu'>
           <p>Olá, {this.state.name}!</p>
           <div>

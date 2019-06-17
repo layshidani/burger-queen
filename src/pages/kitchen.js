@@ -31,6 +31,7 @@ class Kitchen extends Component {
     database.collection('orders').get()
       .then((querySnapshot) => {
         const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        this.setState({ listItem: data });
 
         const compare = (a, b) => {
           let firstOrder = parseFloat((a.hour).replace(':').replace(/[^\d.-]/g, ''));
@@ -46,7 +47,6 @@ class Kitchen extends Component {
         }
 
         data.sort(compare);
-        this.setState({ listItem: data });
       });
   }
 
@@ -78,7 +78,7 @@ class Kitchen extends Component {
     const orders = this.state.listItem;
 
     return (
-      <section className='order-list'>
+      <section className='order-list-ready'>
         <div className='menu'>
           <p>Olá, {this.state.name}!</p>
           <div>
@@ -91,8 +91,6 @@ class Kitchen extends Component {
           <h1>Pedidos em preparo:</h1>
           {
             orders.map((orders, index) => {
-
-
               if (orders.status === 'kitchen') {
                 return (
                   <div id={'orders' + index} className='order-kitchen' key={'order' + index}>
@@ -125,7 +123,7 @@ class Kitchen extends Component {
                       }
                     </table>
 
-                    <Button key={index} className='order-ready' iconName={faCheck} text='Pronto para servir!' onClick={() => this.orderReady(orders, index,('orders' + index), (new Date().toString().split(' ')[4]))}></Button>
+                    <Button key={index} className='order-ready' iconName={faCheck} text='Pronto para servir!' onClick={() => this.orderReady(orders, index, ('orders' + index), (new Date().toString().split(' ')[4]))}></Button>
                   </div>
                 )
               }
