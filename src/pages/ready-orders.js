@@ -13,17 +13,18 @@ class Ready extends Component {
     this.state = {
       listItem: [],
       type: '',
-      order: []
+      order: [],
+      preparingTime: ''
     }
 
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
-        database.collection("users").doc(user.uid).get()
+        database.collection('users').doc(user.uid).get()
           .then(doc => {
             const data = doc.data();
             const name = data.displayName;
             const type = data.userType;
-            this.setState({ name, type })
+            this.setState({ name, type})
           });
       }
     });
@@ -33,10 +34,13 @@ class Ready extends Component {
     database.collection('orders').get()
       .then((querySnapshot) => {
         const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        this.setState({ 
+          listItem: data,
+         });
 
         const compare = (a, b) => {
-          let firstOrder = parseFloat((a.hour).replace(':').replace(/[^\d.-]/g, ''));
-          let secondOrder = parseFloat((b.hour).replace(':').replace(/[^\d.-]/g, ''));
+          let firstOrder = a.hourReady;
+          let secondOrder = b.hourReady;
 
           if (firstOrder < secondOrder) {
             return -1;
@@ -48,7 +52,6 @@ class Ready extends Component {
         }
 
         data.sort(compare);
-        this.setState({ listItem: data });
       });
   }
 
@@ -74,6 +77,7 @@ class Ready extends Component {
   render() {
     const orders = this.state.listItem;
 
+
     return (
       <section className='order-list'>
         <div className='menu'>
@@ -89,13 +93,11 @@ class Ready extends Component {
             if (orders.status === 'ready') {
               return (
                 <div id={'orders' + index} className='order-ready' key={'ready' + index} ref={orders.id}>
-                  <h2>Pedido {index + 1}</h2>
+                  <h2>Pedido {orders.orderNumber}</h2>
                   <p className='time'>Hora do pedido: {orders.hour} - Pronto: {orders.hourReady}</p>
-                  <p className='time'>Tempo de preparo: {new Date(
-                    ((+orders.hourReady.split(':')[0]) * 60 * 60 + (+orders.hourReady.split(':')[1]) * 60 + (+orders.hourReady.split(':')[2]) - (+orders.hour.split(':')[0]) * 60 * 60 + (+orders.hour.split(':')[1]) * 60 + (+orders.hour.split(':')[2])) * 1000).toISOString().substr(11, 8)}
+                  <p className='time'>Tempo de preparo: {orders.preparingTime}
                   </p>
-                  <p>Cliente: {orders.clientName}</p>
-                  <p>Atendente: {orders.waiter}</p>
+                  <p>Cliente: {orders.clientName} (Atendente: {orders.waiter})</p>
                   <table className='order-resume'>
                     <thead>
                       <tr>
