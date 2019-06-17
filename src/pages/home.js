@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './home.css'
 import Button from '../components/Button'
 import '../components/Form.css'
@@ -17,13 +17,14 @@ class Home extends Component {
       email: '',
       password: '',
       displayName: '',
+      errorMsg: ''
     };
   }
 
   handleChange = (event, element) => {
     const newState = this.state;
     newState[element] = event.target.value
-    this.setState(newState);
+    this.setState({ newState });
   }
 
   createUser = () => {
@@ -42,6 +43,8 @@ class Home extends Component {
       .then((resp) => {
         if (resp) {
           this.props.history.push(`/${userType}`)
+        } else {
+          this.setState({ errorMsg: this.props.error });
         }
       })
   }
@@ -50,23 +53,24 @@ class Home extends Component {
     const { email, password } = this.state;
     this.props.signInWithEmailAndPassword(email, password)
       .then((resp) => {
+        if (!resp) return;
         const id = resp.user.uid;
         database.collection('users').doc(id).get()
           .then((resp) => {
-            this.props.history.push(`/${resp.data().userType}`)
-          })
-          .catch((error) => {
-            alert(error)
+            if (resp) {
+              this.props.history.push(`/${resp.data().userType}`);
+            } else {
+              this.setState({ errorMsg: this.props.error });
+            }
           })
       })
   }
 
   render() {
-    const errorMsg = this.props.error;
     return (
       <div className='home'>
         <p>
-          {errorMsg}
+          {this.state.errorMsg}
         </p>
         <h1>Entrar</h1>
         <input value={this.state.email} type='email'
@@ -76,7 +80,7 @@ class Home extends Component {
           placeholder='Senha'
           onChange={(e) => this.handleChange(e, 'password')} />
         <Button text='Entrar' className='btn' iconName={faSignInAlt} onClick={this.signIn} />
-        <hr/>
+        <hr />
         <h1>Criar usuário</h1>
         <input value={this.state.displayName}
           placeholder='Nome de usuário'
