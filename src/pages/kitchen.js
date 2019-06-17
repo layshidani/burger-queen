@@ -96,8 +96,7 @@ class Kitchen extends Component {
                   <div id={'orders' + index} className='order-kitchen' key={'order' + index}>
                     <h2>Pedido {index + 1}</h2>
                     <p className='time'>Hora do pedido: {orders.hour}</p>
-                    <p>Cliente: {orders.clientName}</p>
-                    <p>Atendente: {orders.waiter}</p>
+                    <p>Cliente: {orders.clientName} (Atendente: {orders.waiter})</p>
                     <table className='order-resume'>
                       <thead>
                         <tr>

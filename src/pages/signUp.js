@@ -4,12 +4,11 @@ import Button from '../components/Button'
 import '../components/Form.css'
 import firebase from '../firebase/firebase-config';
 import withFirebaseAuth from 'react-with-firebase-auth';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import addUser from '../firebase/firestore';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 const firebaseAppAuth = firebase.auth();
-const database = firebase.firestore();
 
 class SignUp extends Component {
   constructor(props) {
