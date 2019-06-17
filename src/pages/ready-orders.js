@@ -13,17 +13,18 @@ class Ready extends Component {
     this.state = {
       listItem: [],
       type: '',
-      order: []
+      order: [],
+      preparingTime: ''
     }
 
     firebaseAppAuth.onAuthStateChanged(user => {
       if (user) {
-        database.collection("users").doc(user.uid).get()
+        database.collection('users').doc(user.uid).get()
           .then(doc => {
             const data = doc.data();
             const name = data.displayName;
             const type = data.userType;
-            this.setState({ name, type })
+            this.setState({ name, type})
           });
       }
     });
@@ -33,10 +34,13 @@ class Ready extends Component {
     database.collection('orders').get()
       .then((querySnapshot) => {
         const data = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        this.setState({ 
+          listItem: data,
+         });
 
         const compare = (a, b) => {
-          let firstOrder = parseFloat((a.hour).replace(':').replace(/[^\d.-]/g, ''));
-          let secondOrder = parseFloat((b.hour).replace(':').replace(/[^\d.-]/g, ''));
+          let firstOrder = a.hourReady;
+          let secondOrder = b.hourReady;
 
           if (firstOrder < secondOrder) {
             return -1;
@@ -48,7 +52,6 @@ class Ready extends Component {
         }
 
         data.sort(compare);
-        this.setState({ listItem: data });
       });
   }
 
@@ -88,17 +91,11 @@ class Ready extends Component {
         {
           orders.map((orders, index) => {
             if (orders.status === 'ready') {
-              const hourReady = (orders.hourReady).split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
-              const hourOrder = (orders.hour).split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
-              const date = new Date(null);
-              date.setSeconds(hourReady - hourOrder);
-              const preparingTime = date.toISOString().substr(11, 8);
-
               return (
                 <div id={'orders' + index} className='order-ready' key={'ready' + index} ref={orders.id}>
-                  <h2>Pedido {index + 1}</h2>
+                  <h2>Pedido {orders.orderNumber}</h2>
                   <p className='time'>Hora do pedido: {orders.hour} - Pronto: {orders.hourReady}</p>
-                  <p className='time'>Tempo de preparo: {preparingTime}
+                  <p className='time'>Tempo de preparo: {orders.preparingTime}
                   </p>
                   <p>Cliente: {orders.clientName} (Atendente: {orders.waiter})</p>
                   <table className='order-resume'>

@@ -12,7 +12,7 @@ class Kitchen extends Component {
     super(props);
     this.state = {
       listItem: [],
-      order: []
+      order: [],
     }
 
     firebaseAppAuth.onAuthStateChanged(user => {
@@ -50,20 +50,24 @@ class Kitchen extends Component {
       });
   }
 
-  hour = () => {
-    const time = Date().split(' ')[4];
-    return time
-  }
+  orderReady = (orders, index, item, thisHour) => {
+    const hourReady = thisHour.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    const hourOrder = (orders.hour).split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    const date = new Date(null);
+    date.setSeconds(hourReady - hourOrder);
+    const preparingTime = date.toISOString().substr(11, 8);
 
-  orderReady = (id, index) => {
-    database.collection('orders').doc(id).update({
+    database.collection('orders').doc(orders.id).update({
       status: 'ready',
-      hourReady: this.hour()
+      preparingTime,
+      hourReady: thisHour,
+      orderNumber: index + 1
     })
 
-    const element = document.getElementById(index);
+    const element = document.getElementById(item);
     element.parentNode.removeChild(element);
   }
+
 
   signOut = () => {
     firebaseAppAuth.signOut()
@@ -87,6 +91,8 @@ class Kitchen extends Component {
           <h1>Pedidos em preparo:</h1>
           {
             orders.map((orders, index) => {
+
+
               if (orders.status === 'kitchen') {
                 return (
                   <div id={'orders' + index} className='order-kitchen' key={'order' + index}>
@@ -118,7 +124,8 @@ class Kitchen extends Component {
                         })
                       }
                     </table>
-                    <Button key={index} className='order-ready' iconName={faCheck} text='Pronto para servir!' onClick={() => this.orderReady(orders.id, 'orders' + index)}></Button>
+
+                    <Button key={index} className='order-ready' iconName={faCheck} text='Pronto para servir!' onClick={() => this.orderReady(orders, index,('orders' + index), (new Date().toString().split(' ')[4]))}></Button>
                   </div>
                 )
               }
