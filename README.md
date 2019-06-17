@@ -4,6 +4,7 @@
 
 ## Índice
 
+* [Telas da Aplicação](#telas-da-aplicação)
 * [1. Preâmbulo](#1-preâmbulo)
 * [2. Resumo do projeto](#2-resumo-do-projeto)
 * [3. Objetivos de aprendizagem](#3-objetivos-de-aprendizagem)
@@ -13,6 +14,23 @@
 * [6. Dicas e leituras complementares](#7-dicas-e-leituras-complementares)
 
 ***
+
+## Interface da Aplicação
+
+### Login
+![Interface de login](imgs/signin.png)
+
+### Cadastro
+![Interface de cadastro](imgs/signup.png)
+
+### Salão
+![Interface do salão](imgs/saloon.png)
+
+### Cozinha
+![Interface da cozinha](imgs/kitchen.png)
+
+### Pedidos Prontos e tempo de preparo
+![Interface de Pedidos Prontos e tempo de preparo](imgs/ready.png)
 
 ## 1. Preâmbulo
 
