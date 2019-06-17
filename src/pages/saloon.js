@@ -162,7 +162,7 @@ class Saloon extends Component {
         </div>
         <div className='order-list'>
           <h1>Resumo do Pedido</h1>
-          <div ref='orderList'>
+          {/* <div ref='orderList'> */}
             {
               this.state.order.map((item, i) => {
                 return (
@@ -176,7 +176,7 @@ class Saloon extends Component {
                 )
               })
             }
-          </div>
+          {/* </div> */}
           <h3>Valor Total do Pedido</h3>
           <p ref='totalPrice'>R$ {total}</p>
           <input value={this.state.clientName}
