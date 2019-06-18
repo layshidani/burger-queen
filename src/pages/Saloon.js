@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebase/firebase-config';
 import Data from '../data.json';
-import './saloon.css';
+import './Saloon.css';
 import '../components/Button.css';
 import Button from '../components/Button';
 import { faCoffee, faGlassWhiskey, faHamburger, faCertificate, faPlusCircle, faMinusCircle, faShareSquare, faSignOutAlt, faHourglassHalf } from '@fortawesome/free-solid-svg-icons';

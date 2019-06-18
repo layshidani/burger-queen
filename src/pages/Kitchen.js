@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebase/firebase-config';
 import Button from '../components/Button';
-import './kitchen.css';
+import './Kitchen.css';
 import { faCheck, faHourglassHalf, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const firebaseAppAuth = firebase.auth();
@@ -45,7 +45,6 @@ class Kitchen extends Component {
             return 0;
           }
         }
-
         data.sort(compare);
       });
   }
@@ -67,7 +66,6 @@ class Kitchen extends Component {
     const element = document.getElementById(item);
     element.parentNode.removeChild(element);
   }
-
 
   signOut = () => {
     firebaseAppAuth.signOut()

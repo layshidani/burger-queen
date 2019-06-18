@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebase/firebase-config';
 import Button from '../components/Button';
-import './ready-orders.css';
+import './Ready-orders.css';
 import { faAngleLeft, faCheckDouble, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const firebaseAppAuth = firebase.auth();
